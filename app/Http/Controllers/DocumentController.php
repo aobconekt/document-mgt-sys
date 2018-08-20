@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Validator;
 use App\Document;
 use Illuminate\Http\Request;
@@ -48,7 +49,7 @@ class DocumentController extends Controller
         }else {
 
                 $document = new Document();
-                $document->user_id = 5; //Aut::user()->id
+                $document->user_id = Auth::user()->id;
                 $document->name = $request->document;
                 $document->save();
                 return $document;

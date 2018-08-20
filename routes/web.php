@@ -12,8 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.register');
 });
 
 Route::post('document', 'DocumentController@store');
 Route::get('document', 'DocumentController@index');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

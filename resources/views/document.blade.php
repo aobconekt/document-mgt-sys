@@ -84,7 +84,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    <input type="text" class="form-control filter" name="search" id="search" placeholder="Search for file"><br><br>
+                    <input type="text" class="form-control filter" name="search" id="search" placeholder="Search for file"><br>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
@@ -108,11 +108,20 @@
                 </div>
 
                 <div class="links">
-                        <form class="form-inline" action="/document" enctype="multipart/form-data" method="POST">
+                    <form class="form-inline" action="document" enctype="multipart/form-data" method="POST">
                         <input type="file" name="document" id="document" class="form-control">
                         <button class="btn btn-primary">Upload</button>
                         {{ csrf_field() }}
                     </form>
+                    @if (count($errors) > 0)
+                        <div class = "alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

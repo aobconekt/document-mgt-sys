@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Validator;
 use App\Document;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -15,7 +16,7 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        return view('document');
     }
 
     /**
@@ -37,9 +38,22 @@ class DocumentController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'document'   => 'mimes:doc,pdf,docx,zip'
+            'document'   => 'required|mimes:doc,pdf,docx,zip'
         ]);
-        return view("welcome");
+
+        if ($validator->fails()) {
+            return redirect('document')
+                        ->withErrors($validator)
+                        ->withInput();
+        }else {
+
+                $document = new Document();
+                $document->user_id = 5; //Aut::user()->id
+                $document->name = $request->document;
+                $document->save();
+                return $document;
+        }
+        // return view("welcome");
     }
 
     /**

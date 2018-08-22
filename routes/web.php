@@ -16,8 +16,11 @@ Route::get('/', function () {
 });
 
 Route::post('document', 'DocumentController@store');
-Route::get('document', 'DocumentController@index');
+Route::get('remove/{$id}', 'DocumentController@destroy');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('/home', 'DocumentController@show');

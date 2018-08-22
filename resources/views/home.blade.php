@@ -28,13 +28,15 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                    @foreach ($getDocuments as $getDoc)
                                     <tr>
-                                        <td>1</td>
-                                        <td>Document management system</td>
-                                        <td>August/2018</td>
-                                        <td><button class="btn btn-info">Download</button></td>
-                                        <td><button class="btn btn-danger">Delete</button></td>
+                                        <td>{{ $getDoc->id }}</td>
+                                        <td>{{ $getDoc->name }}</td>
+                                        <td>{{ $getDoc->created_at }}</td>
+                                        <td><a href="/download/{{ $getDoc->id }}"><button class="btn btn-info">Download</button></a></td>
+                                        <td><a href="/remove/{{ $getDoc->id }}"><button class="btn btn-danger">Delete</button></a></td>
                                     </tr>
+                                    @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -42,7 +44,7 @@
                     <div class="links">
                             <form class="form-inline" action="document" enctype="multipart/form-data" method="POST">
                                 <input type="file" name="document" id="document" class="form-control">
-                                <button class="btn btn-primary">Upload</button>
+                                <button class="btn btn-secondary">Upload</button>
                                 {{ csrf_field() }}
                             </form>
                             @if (count($errors) > 0)

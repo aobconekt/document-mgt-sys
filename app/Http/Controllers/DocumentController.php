@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use Validator;
 use App\Document;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Auth;
+use Storage;
 
 class DocumentController extends Controller
 {
@@ -17,7 +18,7 @@ class DocumentController extends Controller
      */
     public function index()
     {
-        return view('document');
+        return view('home');
     }
 
     /**
@@ -38,23 +39,27 @@ class DocumentController extends Controller
      */
     public function store(Request $request)
     {
+        //VALIDATION OF USER UPLOAD AND SAVING TO DATABASE
         $validator = Validator::make($request->all(), [
-            'document'   => 'required|mimes:doc,pdf,docx,zip'
+            'document'   => 'required|mimes:doc,pdf,docx'
         ]);
-
         if ($validator->fails()) {
-            return redirect('document')
+            return redirect('home')
                         ->withErrors($validator)
                         ->withInput();
         }else {
 
                 $document = new Document();
                 $document->user_id = Auth::user()->id;
-                $document->name = $request->document;
+                $document->name = $request->document->getClientOriginalName();
+                $document->file_path = $request->document;
                 $document->save();
-                return $document;
+
+                $files= $request->file('document');
+                $files->storeAs('public', $files->getClientOriginalName());
+                // return Storage::putFile('public', $files);
         }
-        // return view("welcome");
+        return redirect()->back();
     }
 
     /**
@@ -65,7 +70,24 @@ class DocumentController extends Controller
      */
     public function show(Document $document)
     {
-        //
+        $getUserId= Auth::user()->id;
+        $getDocuments= $document->all()->where('user_id', '=', $getUserId);
+
+        return view('home', [
+            'getDocuments' => $getDocuments
+        ]);
+    }
+
+    // FUNCTION FOR DOWNLOADING UPLOADED FILES
+    public function getDownload()
+    {
+        $file= public_path(). "/download/info.pdf";
+
+        $headers = array(
+                'Content-Type: application/pdf',
+                );
+
+        return Response::download($file, 'filename.pdf', $headers);
     }
 
     /**
@@ -99,6 +121,6 @@ class DocumentController extends Controller
      */
     public function destroy(Document $document)
     {
-        //
+        $document->find(1)->delete();
     }
 }

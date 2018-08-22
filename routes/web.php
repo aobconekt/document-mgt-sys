@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::post('document', 'DocumentController@store');
-Route::get('remove/{$id}', 'DocumentController@destroy');
+Route::get('remove/{id}', 'DocumentController@destroy');
 
 Auth::routes();
 

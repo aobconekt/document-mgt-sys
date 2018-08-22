@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Validator;
 use App\Document;
 use Illuminate\Http\Request;
+use illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Auth;
 use Storage;
@@ -119,8 +121,10 @@ class DocumentController extends Controller
      * @param  \App\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Document $document)
+    public function destroy($id, Document $document)
     {
-        $document->find(1)->delete();
+        $delDoc= $document->find($id)->delete();
+
+        return redirect()->back();
     }
 }

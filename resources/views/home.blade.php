@@ -33,11 +33,14 @@
                                         <td>{{ $getDoc->id }}</td>
                                         <td>{{ $getDoc->name }}</td>
                                         <td>{{ $getDoc->created_at }}</td>
-                                        <td><a href="/download/{{ $getDoc->id }}"><button class="btn btn-info">Download</button></a></td>
+                                        <td><a href="storage/app/public/{{ $getDoc->name }}" download><button class="btn btn-info">Download</button></a></td>
                                         <td><a href="/remove/{{ $getDoc->id }}"><button class="btn btn-danger">Delete</button></a></td>
                                     </tr>
                                     @endforeach
                             </tbody>
+                            <tfoot>
+                                {{-- <tr>{{ $getDocuments->links() }}</tr> --}}
+                            </tfoot>
                         </table>
                     </div>
                     {{-- UPLOAD FORM --}}

@@ -83,10 +83,12 @@ class DocumentController extends Controller
     // FUNCTION FOR DOWNLOADING UPLOADED FILES
     public function getDownload()
     {
-        $file= public_path(). "/download/info.pdf";
+        $file= public_path(). "storage/app/public";
 
         $headers = array(
                 'Content-Type: application/pdf',
+                'Content-Type: application/doc',
+                'Content-Type: application/docs',
                 );
 
         return Response::download($file, 'filename.pdf', $headers);
